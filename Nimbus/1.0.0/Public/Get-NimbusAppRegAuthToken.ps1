@@ -15,7 +15,7 @@ The client ID of the Azure AD application.
 The client secret of the Azure AD application.
 
 .PARAMETER BaseURL
-The base URL for the Microsoft Graph API, typically "https://graph.microsoft.com".
+The base URL for the Nimbus Portal, formatted "https://portal.{geography}-{number}.luware.cloud".
 
 .OUTPUTS
 System.String
