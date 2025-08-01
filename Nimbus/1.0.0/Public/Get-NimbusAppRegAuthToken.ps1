@@ -14,6 +14,9 @@ The client ID of the Azure AD application.
 .PARAMETER ClientSecret
 The client secret of the Azure AD application.
 
+.PARAMETER BaseURL
+The base URL for the Microsoft Graph API, typically "https://graph.microsoft.com".
+
 .OUTPUTS
 System.String
 Returns the access token as a string.
