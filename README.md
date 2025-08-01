@@ -15,22 +15,3 @@ Copy-NimbusUser -AuthToken "<token>" -BaseUri "https://portal.eu-1" -SourceO365I
 ```
 
 The functions rely on the Nimbus REST API as documented on [help.luware.com](https://help.luware.com/nimbus-integrations/nimbus-api).
-
-## PowerShell Installation
-To install PowerShell 7 on Ubuntu, run the following commands:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y wget apt-transport-https software-properties-common
-wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-sudo apt-get update
-sudo apt-get install -y powershell
-```
-
-Launch PowerShell using:
-
-```bash
-pwsh
-```
