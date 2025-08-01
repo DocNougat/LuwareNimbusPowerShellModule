@@ -28,14 +28,15 @@ function Get-NimbusAppRegAuthToken {
     param (
         [string]$TenantId,
         [string]$ClientId,
-        [string]$ClientSecret
+        [string]$ClientSecret,
+        [string]$NimbusPortalURL
     )
 
     $body = @{
         grant_type    = "client_credentials"
         client_id     = $ClientId
         client_secret = $ClientSecret
-        scope         = "https://graph.microsoft.com/.default"
+        scope         = $NimbusPortalURL + "/.default"
     }
 
     $tokenResponse = Invoke-RestMethod -Method POST -Uri "https://login.microsoftonline.com/$TenantId/oauth2/v2.0/token" -Body $body
