@@ -10,8 +10,9 @@
         'Get-NimbusUserDetails',
         'New-NimbusUser',
         'Remove-NimbusUser',
+        'Get-NimbusAppRegAuthToken',
         'Get-NimbusLicenseUsage',
-        'Copy-NimbusUser'
+        'Copy-NimbusUser',
         'Get-NimbusLicenseUsage'
     )
 }
