@@ -10,10 +10,8 @@ This module provides PowerShell cmdlets for interacting with the [Luware Nimbus]
 
 ## Installation
 
-Clone this repository or download the module files, then import the module manifest:
-
 ```powershell
-Import-Module "./Nimbus/1.0.0/Nimbus.psd1"
+Install-Module -Name PSNimbus
 ```
 
 ## Authentication
