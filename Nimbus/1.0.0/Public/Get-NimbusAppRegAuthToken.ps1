@@ -1,31 +1,30 @@
 <#
 .SYNOPSIS
-Retrieves an OAuth 2.0 access token for Microsoft Graph using application credentials.
+Retrieves an OAuth 2.0 access token for an Azure AD application registration using client credentials.
 
 .DESCRIPTION
-The Get-GraphAuthToken function requests an access token from Azure AD for Microsoft Graph API using the client credentials flow. It requires the tenant ID, client ID, and client secret of an Azure AD application.
+The Get-NimbusAppRegAuthToken function requests an access token from Azure Active Directory for a specified tenant and application registration. It uses the client credentials grant type and returns the access token required for authentication against APIs secured by Azure AD.
 
 .PARAMETER TenantId
 The Azure Active Directory tenant ID.
 
 .PARAMETER ClientId
-The client ID of the Azure AD application.
+The application (client) ID of the Azure AD app registration.
 
 .PARAMETER ClientSecret
-The client secret of the Azure AD application.
+The client secret associated with the Azure AD app registration.
 
 .PARAMETER BaseURL
-The base URL for the Nimbus Portal, formatted "https://portal.{geography}-{number}.luware.cloud".
-
-.OUTPUTS
-System.String
-Returns the access token as a string.
+The base URL of the resource for which the access token is requested.
 
 .EXAMPLE
-$token = Get-GraphAuthToken -TenantId "your-tenant-id" -ClientId "your-client-id" -ClientSecret "your-client-secret"
+$token = Get-NimbusAppRegAuthToken -TenantId "your-tenant-id" -ClientId "your-client-id" -ClientSecret "your-client-secret" -BaseURL "https://portal.ukso-01.luware.cloud"
+
+.RETURNS
+Returns the OAuth 2.0 access token as a string.
 
 .NOTES
-Requires network connectivity and valid Azure AD application credentials.
+Ensure that the provided client ID and client secret have the necessary permissions to request tokens for the specified resource.
 #>
 function Get-NimbusAppRegAuthToken {
     param (
@@ -35,13 +34,25 @@ function Get-NimbusAppRegAuthToken {
         [string]$BaseURL
     )
 
-    $body = @{
-        grant_type    = "client_credentials"
-        client_id     = $ClientId
-        client_secret = $ClientSecret
-        scope         = $BaseURL + "/.default"
+    $scope = "$BaseURL/.default"
+
+    $pair = "$($ClientId):$($ClientSecret)"
+    $encodedAuth = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($pair))
+    $headers = @{
+        Authorization = "Basic $encodedAuth"
+        "Content-Type" = "application/x-www-form-urlencoded"
     }
 
-    $tokenResponse = Invoke-RestMethod -Method POST -Uri "https://login.microsoftonline.com/$TenantId/oauth2/v2.0/token" -Body $body
-    return $tokenResponse.access_token
+    $body = @{
+        grant_type = "client_credentials"
+        scope      = $scope
+    }
+
+    $response = Invoke-RestMethod -Method POST `
+        -Uri "https://login.microsoftonline.com/$TenantId/oauth2/v2.0/token" `
+        -Headers $headers `
+        -Body $body `
+        -ContentType "application/x-www-form-urlencoded"
+
+    return $response.access_token
 }

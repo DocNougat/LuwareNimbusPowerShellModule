@@ -1,17 +1,27 @@
+<#
+.SYNOPSIS
+Retrieves Nimbus license usage information for users.
+
+.DESCRIPTION
+The Get-NimbusLicenseUsage function sends a GET request to the Nimbus API to obtain license usage details for users. It requires an authentication token and the base URI of the Nimbus API.
+
+.PARAMETER AuthToken
+The authentication token used to authorize the API request.
+
+.PARAMETER BaseUri
+The base URI of the Nimbus API endpoint.
+
+.EXAMPLE
+Get-NimbusLicenseUsage -AuthToken $token -BaseUri "https://portal.ukso-01.luware.cloud"
+
+.REMARKS
+This function relies on the Invoke-NimbusApiRequest helper function to perform the API call.
+
+.NOTES
+Author: Alex Heimbuch
+Module: LuwareNimbusPowerShellModule
+#>
 function Get-NimbusLicenseUsage {
-    <#
-    .SYNOPSIS
-    Retrieve Nimbus license usage information.
-
-    .DESCRIPTION
-    Returns details about the total, used and available Nimbus licenses.
-
-    .PARAMETER AuthToken
-    OAuth token used for authentication.
-
-    .PARAMETER BaseUri
-    Base URI of the Nimbus portal.
-    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
